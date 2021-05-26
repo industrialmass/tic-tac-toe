@@ -28,18 +28,17 @@ const game = (() => {
     winner = player;
   };
 
-  const displayWinner = () => {
+  const displayWinner = (text = `${winner.name} has won the game!`) => {
     const announcement = document.createElement("h1");
     announcement.setAttribute("id", "win");
-    announcement.textContent = `${winner.name} has won the game!`;
+    announcement.textContent = text;
     document.body.appendChild(announcement);
   };
 
   const hideWinner = () => {
-    if (winner) {
-      document
-        .getElementById("win")
-        .parentNode.removeChild(document.getElementById("win"));
+    const announcement = document.getElementById("win");
+    if (announcement) {
+      announcement.parentNode.removeChild(announcement);
     }
   };
 
@@ -118,6 +117,8 @@ const scoreBoard = ((rows, columns) => {
     ) {
       game.setWinner(game.getCurrentPlayer());
       game.displayWinner();
+    } else if (!gameBoard.getEmptySquareCount()) {
+      game.displayWinner("Draw!");
     }
   };
 
@@ -126,6 +127,7 @@ const scoreBoard = ((rows, columns) => {
 
 const gameBoard = (() => {
   const grid = document.getElementById("grid");
+  // This happens only once at window load
   const squares = ((rows, columns) => {
     const gridArray = [];
     for (let row = 0; row < rows; row++) {
@@ -141,7 +143,7 @@ const gameBoard = (() => {
           fillSquare(newSquare, game.getCurrentPlayer());
           scoreBoard.updateScore(row, column);
           game.switchCurrentPlayer();
-          setTimeout(AI.makeMove, 300);
+          setTimeout(AI.makeMove, 100);
         });
 
         rowArray.push(newSquare);
@@ -201,6 +203,7 @@ document.getElementById("reset").addEventListener("click", () => {
 });
 
 const AI = (() => {
+  // The AI makes a simple random move
   const makeMove = () => {
     const emptySquareCount = gameBoard.getEmptySquareCount();
     if (game.getWinner() || !emptySquareCount) {

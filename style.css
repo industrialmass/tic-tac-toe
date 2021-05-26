@@ -13,7 +13,12 @@
 }
 
 body {
-  background-color: var(--grey);
+  background: linear-gradient(
+    25deg,
+    var(--light-brown),
+    var(--grey) 50%,
+    var(--light-brown)
+  );
   padding: 0;
   margin: 0;
   width: 100%;
@@ -51,10 +56,8 @@ h1 {
 .grid {
   position: relative;
   border-radius: 50px;
-  padding: 30px;
   margin-top: 20px;
   opacity: 0.7;
-  background-color: var(--sleek-white);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
@@ -68,6 +71,10 @@ h1 {
   border: 1px solid var(--mahogany);
   min-width: 101px;
   min-height: 119px;
+}
+
+.grid__square:hover {
+  background-color: var(--grey);
 }
 
 .grid__square--row-0 {
